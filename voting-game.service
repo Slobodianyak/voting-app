@@ -1,0 +1,21 @@
+[Unit]
+Description=voting-game
+
+Requires=docker.service
+After=docker.service
+
+[Service]
+
+Restart=always
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill voting-game
+ExecStartPre=-/usr/bin/docker rm voting-game
+ExecStartPre=-/usr/bin/docker pull marley/voting-game:latest
+ExecStart=/bin/sh -c '/usr/bin/docker run --name voting-game   \
+ -p 80:8080                        \
+ marley/voting-game'
+ExecStop=-/usr/bin/docker kill voting-game
+ExecStop=-/usr/bin/docker rm voting-game
+
+[Install]
+WantedBy=multi-user.target
