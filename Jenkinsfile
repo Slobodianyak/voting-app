@@ -28,7 +28,7 @@ pipeline {
                         sh "sshpass -p 'rootroot' ssh -o StrictHostKeyChecking=no bristlbeak_jenkins \'sudo docker pull slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}'"
                         try {
                             sh "sshpass -p 'rootroot' ssh -o StrictHostKeyChecking=no bristlbeak_jenkins \"sudo docker stop jenkins_voting_app\""
-                            sh "sshpass -p 'rootroot' ssh -o StrictHostKeyChecking=no bristlbeak_jenkins\"sudo docker rm jenkins_voting_app\""
+                            sh "sshpass -p 'rootroot' ssh -o StrictHostKeyChecking=no bristlbeak_jenkins \"sudo docker rm jenkins_voting_app\""
                         } catch (err) {
                             echo: 'caught error: $err'
                         }
