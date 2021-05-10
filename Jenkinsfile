@@ -14,7 +14,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry("https://hub.docker.com/repositories","slobodyanyuk/jenkins_voting_app/") {
+                    docker.withRegistry("https://hub.docker.com/repositories","c726e323-f4c5-4c9d-8647-70c0496e9fdd") {
                         app.push("${env.BUILD_NUMBER}")
                         app.push("latest")
                     }
