@@ -32,7 +32,7 @@ pipeline {
                         } catch (err) {
                             echo: 'caught error: $err'
                         }
-                        sh "sshpass -p 'rootroot' ssh -o StrictHostKeyChecking=no bristlbeak_jenkins@172.17.0.1 \"sudo docker run --restart always --name jenkins_voting_app -p 8080:8080 -d slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}\""
+                        sh "sshpass -p 'rootroot' ssh -o StrictHostKeyChecking=no bristlbeak_jenkins@172.17.0.1 \"sudo docker run --restart always --name jenkins_voting_app -p 8080:8080 -d bristlbeak_jenkins@172.17.0.1:${env.BUILD_NUMBER}\""
                     }
                 }
             }
