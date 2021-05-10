@@ -2,7 +2,7 @@ FROM node:14
 
 ENV NODE_ENV=production
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 COPY package.json ./app
 
