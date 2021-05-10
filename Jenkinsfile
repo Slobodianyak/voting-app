@@ -2,7 +2,7 @@ pipeline {
     agent any
     stages {
         stage('Build Docker Image') {
-            when \{
+            when {
                 branch 'master'
             }
             steps {
