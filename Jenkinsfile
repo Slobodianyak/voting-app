@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-         stage('Build Docker Image') {
+        stage('Build Docker Image') {
             steps {
                 script {
                     app = docker.build("slobodyanyuk/jenkins_voting_app")
@@ -21,11 +21,11 @@ pipeline {
                 }
             }
         }
-         stage('DeployToProduction') {
+        stage('DeployToProduction') {
             steps {
                 input 'Deploy to Production?'
                 milestone(1)
-                withCredentials([usernamePassword(credentialsId: '08621aad-cec2-4de5-ae96-794ec307a457', usernameVariable: 'slobodyanyuk', passwordVariable: 'crazycheese205')]) {
+                withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     script {
                         sh "sshpass -p '$USERPASS' ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \'docker pull slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}'"
                         try {
