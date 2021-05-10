@@ -48,16 +48,5 @@ pipeline {
                 }
             }
         }    
-	stage('Push image') {
-	    when {
-                branch 'main'
-            }
-		steps{
-                	docker.withRegistry("https://registry.hub.docker.com", "dockerRegistryCred") {            
-       			app.push("${env.BUILD_NUMBER}")            
-       			app.push("latest")        
-		}
-	    }    	
-	}
     }
 }
