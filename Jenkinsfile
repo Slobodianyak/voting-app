@@ -1,7 +1,10 @@
 pipeline {
     agent any
     stages {
-        stage('Build Docker Image', false) {
+        stage('Build Docker Image') {
+            when {
+                branch 'main'
+            }
             steps {
                 script {
                     app = docker.build("slobodyanyuk/jenkins_voting_app")
@@ -11,7 +14,10 @@ pipeline {
                 }
             }
         }
-        stage('Push Docker Image', false) {
+        stage('Push Docker Image') {
+            when {
+                branch 'main'
+            }
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerRegistryCred') {
@@ -21,7 +27,10 @@ pipeline {
                 }
             }
         }
-        stage('DeployToProduction', false) {
+        stage('DeployToProduction') {
+            when {
+                branch 'main'
+            }
             steps {
                 input 'Deploy to Production?'
                 milestone(1)
