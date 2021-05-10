@@ -7,7 +7,7 @@ pipeline {
             }
             steps {
                 script {
-                    app = docker.build("slobodyanyuk/jenkins_voting_app")
+                    app = docker.build("skostiuk/cats-vote-app")
                     app.inside {
                         sh 'echo $(curl $prod_ip:8080)'
                     }
