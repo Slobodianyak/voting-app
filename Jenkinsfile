@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://hub.docker.com/repositories','dockerRegistryCred') {
-                        app.push()
+                        app.push("latest")
                     }
                 }
             }
