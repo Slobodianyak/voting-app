@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build Docker Image') {
             when {
-                branch 'main'
+                expression {choice == '1'}
             }
             steps {
                 script {
@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Push Docker Image') {
             when {
-                branch 'main'
+                expression {choice == '1'}
             }
             steps {
                 script {
@@ -29,7 +29,7 @@ pipeline {
         }
         stage('DeployToProduction') {
             when {
-                branch 'main'
+                expression {choice == '1'}
             }
             steps {
                 input 'Deploy to Production?'
