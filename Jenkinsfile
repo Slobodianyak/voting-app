@@ -53,7 +53,7 @@ pipeline {
                 branch 'main'
             }
 		steps{
-                	docker.withRegistry('https://registry.hub.docker.com', 'dockerRegistryCred') {            
+                	docker.withRegistry("https://registry.hub.docker.com", "slobodyanyuk/jenkins_voting_app") {            
        			app.push("${env.BUILD_NUMBER}")            
        			app.push("latest")        
 		}
