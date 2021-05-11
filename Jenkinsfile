@@ -23,7 +23,7 @@ pipeline {
         }
         stage('DeployToProduction') {
             steps {
-               withCredentials([usernamePassword(credentialsId: '08621aad-cec2-4de5-ae96-794ec307a457', usernameVariable: 'slobodyanyuk', passwordVariable: 'rootroot')]) {
+               withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     script {
                         sh "sshpass -p '$USERPASS' ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \'docker pull slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}'"
                         try {
