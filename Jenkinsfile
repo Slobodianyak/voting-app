@@ -25,14 +25,14 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: "e956abb7-90da-440a-8bd1-8d16c2435495", usernameVariable: "bristlbeak_jenkins", passwordVariable: "rootroot")]) {
                     script {
-                        sh "sudo sshpass -S '$rootroot' ssh -o StrictHostKeyChecking=no bristlbeak_jenkins@172.17.0.1 \'sudo docker pull slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}'"
+                        sh "sudo sshpass -S '$rootroot' ssh -o StrictHostKeyChecking=no bristlbeak@project1-0ubuntu \'sudo docker pull slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}'"
                         try {
-                            sh "sudo sshpass -S '$rootroot' ssh -o StrictHostKeyChecking=no bristlbeak_jenkins@172.17.0.1 \"sudo docker stop jenkins_voting_app\""
-                            sh "sudo sshpass -S '$rootroot' ssh -o StrictHostKeyChecking=no bristlbeak_jenkins@172.17.0.1 \"sudo docker rm jenkins_voting_app\""
+                            sh "sudo sshpass -S '$rootroot' ssh -o StrictHostKeyChecking=no bristlbeak@project1-0ubuntu \"sudo docker stop jenkins_voting_app\""
+                            sh "sudo sshpass -S '$rootroot' ssh -o StrictHostKeyChecking=no bristlbeak@project1-0ubuntu \"sudo docker rm jenkins_voting_app\""
                         } catch (err) {
                             echo: 'caught error: $err'
                         }
-                        sh "sudo sshpass -S '$rootroot' ssh -o StrictHostKeyChecking=no bristlbeak_jenkins@172.17.0.1 \"sudo docker run --restart always --name jenkins_voting_app -p 8080:8080 -d slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}\""
+                        sh "sudo sshpass -S '$rootroot' ssh -o StrictHostKeyChecking=no bristlbeak@project1-0ubuntu \"sudo docker run --restart always --name jenkins_voting_app -p 8080:8080 -d slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}\""
                     }
                 }
             }
