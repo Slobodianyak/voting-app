@@ -23,18 +23,16 @@ pipeline {
         }
         stage('DeployToProduction') {
             steps {
-                input 'Deploy to Production?'
-                milestone(1)
-                withCredentials([usernamePassword(credentialsId: "e956abb7-90da-440a-8bd1-8d16c2435495", usernameVariable: "bristlbeak_jenkins", passwordVariable: "rootroot")]) {
+               withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     script {
-                        sh "sudo sshpass -p 'rootroot' ssh -o StrictHostKeyChecking=no bristlbeak@project1-0ubuntu \'sudo docker pull slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}'"
+                        sh "sshpass -p '$USERPASS' ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \'docker pull slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}'"
                         try {
-                            sh "sudo sshpass -p 'rootroot' ssh -o StrictHostKeyChecking=no bristlbeak@project1-0ubuntu \"sudo docker stop jenkins_voting_app\""
-                            sh "sudo sshpass -p 'rootroot' ssh -o StrictHostKeyChecking=no bristlbeak@project1-0ubuntu \"sudo docker rm jenkins_voting_app\""
+                            sh "sshpass -p '$USERPASS' ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker stop slobodyanyuk/jenkins_voting_app\""
+                            sh "sshpass -p '$USERPASS' ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker rm slobodyanyuk/jenkins_voting_appp\""
                         } catch (err) {
                             echo: 'caught error: $err'
                         }
-                        sh "sudo sshpass -p 'rootroot' ssh -o StrictHostKeyChecking=no bristlbeak@project1-0ubuntu \"sudo docker run --restart always --name jenkins_voting_app -p 8080:8080 -d slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}\""
+                        sh "sshpass -p '$USERPASS' ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker run --restart always --name slobodyanyuk/jenkins_voting_app -p 8080:8080 -d slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}\""
                     }
                 }
             }
