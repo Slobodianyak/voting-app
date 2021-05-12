@@ -23,8 +23,7 @@ pipeline {
         }
         stage('DeployToProduction') {
             steps {
-                withCredentials([usernamePassword(credentialsId: "e956abb7-90da-440a-8bd1-8d16c2435495", usernameVariable: "bristlbeak_jenkins", passwordVariable: "rootroot")]) {
-                    script {
+                script {
                         sh "sshpass -p 'rootroot' ssh -o StrictHostKeyChecking=no bristlbeak_jenkins \'sudo docker pull slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}'"
                         try {
                             sh "sshpass -p 'rootroot' ssh -o StrictHostKeyChecking=no bristlbeak_jenkins \"sudo docker stop jenkins_voting_app\""
@@ -38,4 +37,3 @@ pipeline {
             }
         }    
     }
-}
