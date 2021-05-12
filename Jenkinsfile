@@ -25,8 +25,8 @@ pipeline {
             steps{
                 sctipt{
                     docker.withRegistry("","08621aad-cec2-4de5-ae96-794ec307a457") {
-                        app.push("${env.BUILD_NUMBER}")
-                        app.push("latest")
+                        app.pull("${env.BUILD_NUMBER}")
+                        app.pull("latest")
                 }
             }
         }
