@@ -23,10 +23,10 @@ pipeline {
         }
         stage('Pull Docker Image'){
             steps{
-                 def image
                     docker.withRegistry("","08621aad-cec2-4de5-ae96-794ec307a457") {
-                        image = docker.image('slobodyanyuk/jenkins_voting_app').pull()
-                 }
+                        image.pull("${env.BUILD_NUMBER}")
+                        image.pull("latest")
+                }
             }
         }
     }
