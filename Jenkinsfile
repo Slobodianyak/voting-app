@@ -25,8 +25,7 @@ pipeline {
             steps{
                  def image
                     docker.withRegistry("","08621aad-cec2-4de5-ae96-794ec307a457") {
-                        image = docker.image('slobodyanyuk/jenkins_voting_app')
-                        image.pull()
+                        image = docker.image('slobodyanyuk/jenkins_voting_app').pull()
                  }
             }
         }
