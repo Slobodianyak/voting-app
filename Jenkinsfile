@@ -21,19 +21,15 @@ pipeline {
                 }
             }
         }
-        stage('DeployToProduction') {
+        stage('Remove Docker Image') {
             steps {
                 script {
-                        sh "bristlbeak@project1-0ubuntu \'sudo docker pull slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}'"
-                        try {
-                            sh "bristlbeak@project1-0ubuntu \"sudo docker stop jenkins_voting_app\""
-                            sh "bristlbeak@project1-0ubuntu \"sudo docker rm jenkins_voting_app\""
-                        } catch (err) {
-                            echo: 'caught error: $err'
-                        }
-                        sh "bristlbeak@project1-0ubuntu \"sudo docker run --restart always --name jenkins_voting_app -p 8080:8080 -d slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}\""
+                    app = docker.rm("slobodyanyuk/jenkins_voting_app")
+                    app.inside {
+                        sh 'echo $(curl $prod_ip:8080)'
                     }
                 }
             }
         }    
     }
+}
