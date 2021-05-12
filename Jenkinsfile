@@ -21,21 +21,14 @@ pipeline {
                 }
             }
         }
-        stage('DeployToProduction') {
-            steps {
-               withCredentials([usernamePassword(credentialsId: 'e956abb7-90da-440a-8bd1-8d16c2435495', usernameVariable: 'bristlbeak_jenkins', passwordVariable: 'rootroot')]) {
-                    script {
-                        sh "sshpass -p '$USERPASS' ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \'docker pull slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}'"
-                        try {
-                            sh "sshpass -p '$USERPASS' ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker stop slobodyanyuk/jenkins_voting_app\""
-                            sh "sshpass -p '$USERPASS' ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker rm slobodyanyuk/jenkins_voting_appp\""
-                        } catch (err) {
-                            echo: 'caught error: $err'
-                        }
-                        sh "sshpass -p '$USERPASS' ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker run --restart always --name slobodyanyuk/jenkins_voting_app -p 8080:8080 -d slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}\""
-                    }
+        stage('Pull Docker Image'){
+            steps{
+                sctipt{
+                    docker.withRegistry("","08621aad-cec2-4de5-ae96-794ec307a457") {
+                        app.push("${env.BUILD_NUMBER}")
+                        app.push("latest")
                 }
             }
-        }    
+        }
     }
 }
