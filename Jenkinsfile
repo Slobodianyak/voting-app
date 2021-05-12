@@ -21,12 +21,18 @@ pipeline {
                 }
             }
         }
-        stage('Remove Docker Image') {
+        stage('DeployToProduction') {
             steps {
-                script {
-                    app = docker.rm("slobodyanyuk/jenkins_voting_app")
-                    app.inside {
-                        sh 'echo $(curl $prod_ip:8080)'
+                withCredentials([usernamePassword(credentialsId: "e956abb7-90da-440a-8bd1-8d16c2435495", usernameVariable: "bristlbeak", passwordVariable: "rootroot")]) {
+                    script {
+                        sh "sshpass -p 'rootroot' ssh -o StrictHostKeyChecking=no bristlbeak@ubuntu1-0project \'sudo docker pull slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}'"
+                        try {
+                            sh "sshpass -p 'rootroot' ssh -o StrictHostKeyChecking=no bristlbeak@ubuntu1-0project \"sudo docker stop jenkins_voting_app\""
+                            sh "sshpass -p 'rootroot' ssh -o StrictHostKeyChecking=no bristlbeak@ubuntu1-0project \"sudo docker rm jenkins_voting_app\""
+                        } catch (err) {
+                            echo: 'caught error: $err'
+                        }
+                        sh "sshpass -p 'rootroot' ssh -o StrictHostKeyChecking=no bristlbeak@ubuntu1-0project \"sudo docker run --restart always --name jenkins_voting_app -p 8080:8080 -d slobodyanyuk/jenkins_voting_app:${env.BUILD_NUMBER}\""
                     }
                 }
             }
