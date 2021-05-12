@@ -27,6 +27,7 @@ pipeline {
                     docker.withRegistry("","08621aad-cec2-4de5-ae96-794ec307a457") {
                         app.pull("${env.BUILD_NUMBER}")
                         app.pull("latest")
+                    }
                 }
             }
         }
